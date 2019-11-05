@@ -2,7 +2,7 @@ package com.lesson02.task01;
 
 import java.util.Objects;
 
-public class MyEntity {
+public class MyEntity<K, V> {
 
     private Object key;
     private Object value;
