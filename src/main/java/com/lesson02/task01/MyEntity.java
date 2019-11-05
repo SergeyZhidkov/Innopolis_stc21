@@ -4,28 +4,25 @@ import java.util.Objects;
 
 public class MyEntity<K, V> {
 
-    private Object key;
-    private Object value;
+    private final K key;
+    private V value;
 
 
-    public MyEntity(Object key, Object value) {
+    public MyEntity(K key, V value) {
         this.key = key;
         this.value = value;
     }
 
-    public Object getKey() {
+    public K getKey() {
         return key;
     }
 
-    public void setKey(Object key) {
-        this.key = key;
-    }
 
-    public Object getValue() {
+    public V getValue() {
         return value;
     }
 
-    public void setValue(Object value) {
+    public void setValue(V value) {
         this.value = value;
     }
 
