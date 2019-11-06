@@ -1,130 +1,133 @@
 package com.lesson02.task01;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.Random;
+import static org.junit.Assert.*;
 
 /**
  * Unit test for simple App.
  */
-public class AppTest
-{
+public class AppTest {
+    private HashMap map;
+    private MyHashMap mapa;
+    private Random random;
 
-    @Test
-    public void putAndGetTest()
-    {
-        MyHashMap<String, String> map = new MyHashMap<>();
-
-        map.put("1423", "123");
-        map.put("321", "567");
-        map.put("35621", "123216546");
-        map.put("31", "567");
-        map.put("3921", "567");
-        map.put("1125", "13");
-        map.put("4561", "0000");
-        map.put("1111", "1111");
-        map.put("2222", "2222");
-        map.put("3333", "3333");
-        map.put("4444", "4444");
-        map.put("5555", "5555");
-        map.put("6666", "6666");
-        map.put("7777", "7777");
-        map.put("8888", "8888");
-        map.put("9999", "9999");
-        map.put("123456", "178");
-        Object expected = map.get("123456");
-        Object actual = "178";
-        Assert.assertEquals(expected, actual);
+    @Before
+    public void setup() {
+        map = new HashMap();
+        mapa = new MyHashMap();
+        random = new Random();
     }
 
-    @Test
-    public void sizeTest(){
-        MyHashMap<String, String> map = new MyHashMap<>();
-
-        map.put("1423", "123");
-        map.put("321", "567");
-        map.put("35621", "123216546");
-        map.put("31", "567");
-        map.put("3921", "567");
-        map.put("1125", "13");
-        map.put("4561", "0000");
-        map.put("1111", "1111");
-        map.put("2222", "2222");
-        map.put("3333", "3333");
-        map.put("4444", "4444");
-        map.put("5555", "5555");
-        map.put("6666", "6666");
-        map.put("7777", "7777");
-        map.put("8888", "8888");
-        map.put("9999", "9999");
-        map.put("123456", "178");
-        int expected = map.size();
-        int actual = 17;
-        Assert.assertEquals(expected, actual);
-    }
-
-    @Test
-    public void removeTest(){
-        MyHashMap<String, String> map = new MyHashMap<>();
-
-        map.put("1423", "123");
-        map.put("321", "567");
-        map.put("35621", "123216546");
-        map.put("31", "567");
-        map.put("3921", "567");
-        map.put("1125", "13");
-        map.put("4561", "0000");
-        map.put("1111", "1111");
-        map.put("2222", "2222");
-        map.put("3333", "3333");
-        map.put("4444", "4444");
-        map.put("5555", "5555");
-        map.put("6666", "6666");
-        map.put("7777", "7777");
-        map.put("8888", "8888");
-        map.put("9999", "9999");
-        map.put("123456", "178");
-        System.out.println(map.size());
-        map.remove("3333");
-        System.out.println(map.size());
-        Assert.assertNull(map.get("3333"));
-    }
-
-    @Test
-    public void nonTest(){
-        MyHashMap<String, String> map = new MyHashMap<>();
-
-        map.put("1423", "123");
-        map.put("321", "567");
-        map.put("35621", "123216546");
-        map.put("31", "567");
-        map.put("3921", "567");
-        map.put("1125", "13");
-        map.put("4561", "0000");
-        map.put("1111", "1111");
-        map.put("2222", "2222");
-        map.put("3333", "3333");
-        map.put("4444", "4444");
-        map.put("5555", "5555");
-        map.put("6666", "6666");
-        map.put("7777", "7777");
-        map.put("8888", "8888");
-        map.put("9999", "9999");
-        map.put("123456", "178");
-
-        map.remove("3333");
-
-        Assert.assertNull(map.get("3333"));
-    }
 
     @Test
     public void put1000Elements() {
-        MyHashMap<Integer, Integer> map = new MyHashMap<>();
-        Random random = new Random();
+
         for (int i = 0; i < 1000; i++) {
             map.put(i, random.nextInt());
+            mapa.put(i, random.nextInt());
         }
-        Assert.assertEquals(1000, map.size());
+
+        Assert.assertEquals(mapa.size(), map.size());
+    }
+
+    @Test
+    public void putAllElements(){
+        for (int i = 0; i < 100; i++) {
+            map.put(i, random.nextInt());
+            mapa.putAll(map);
+            Assert.assertEquals(mapa.size(), map.size());
+        }
+    }
+
+    @Test
+    public void removeByKey() {
+        for (int i = 0; i < 100; i++) {
+            map.put(i, random.nextInt());
+            mapa.put(i, random.nextInt());
+        }
+        map.remove(1);
+        map.remove(17);
+        map.remove(74);
+        mapa.remove(1);
+        mapa.remove(17);
+        mapa.remove(74);
+
+        assertEquals(mapa.size(), map.size());
+    }
+
+    @Test
+    public void getFromMap() {
+        final int data = random.nextInt();
+        map.put(data, data);
+        mapa.put(data,data);
+        assertEquals(data, map.get(data));
+        assertEquals(data, mapa.get(data));
+        assertEquals(map.get(data), mapa.get(data));
+    }
+
+    @Test
+    public void containsKeyFunction() {
+        final int data = random.nextInt();
+        map.put(data, data);
+        mapa.put(data,data);
+        assertTrue(map.containsKey(data));
+        assertFalse(map.containsKey(3));
+        assertEquals(1, map.size());
+        assertTrue(mapa.containsKey(data));
+        assertFalse(mapa.containsKey(3));
+        assertEquals(1, mapa.size());
+    }
+
+    @Test
+    public void containsValueFunction() {
+        final int data = random.nextInt();
+        map.put(data, data);
+        mapa.put(data, data);
+        assertTrue(map.containsValue(data));
+        assertFalse(map.containsValue(5));
+        assertEquals(1, map.size());
+        assertTrue(mapa.containsValue(data));
+        assertFalse(mapa.containsValue(5));
+        assertEquals(1, mapa.size());
+    }
+
+    @Test
+    public void isEmptyTrue() {
+        assertEquals(0, map.size());
+        assertTrue(map.isEmpty());
+        assertEquals(0, mapa.size());
+        assertTrue(mapa.isEmpty());
+    }
+
+    @Test
+    public void isEmptyFalse() {
+        final int data = random.nextInt();
+        map.put(data, data);
+        mapa.put(data, data);
+        assertEquals(1, map.size());
+        assertFalse(map.isEmpty());
+        assertEquals(1, mapa.size());
+        assertFalse(mapa.isEmpty());
+
+    }
+
+    @Test
+    public void clearMap() {
+        for (int i = 0; i < 1000; i++) {
+            map.put(i, random.nextInt());
+            mapa.put(i, random.nextInt());
+        }
+        assertEquals(1000, map.size());
+        map.clear();
+        assertEquals(0, map.size());
+        assertEquals(1000, mapa.size());
+        mapa.clear();
+        assertEquals(0, mapa.size());
     }
 }
+
